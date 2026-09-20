@@ -106,9 +106,9 @@ jobs:
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         set -e
-        lunch fox_${{ inputs.DEVICE_NAME }}-ap2a-eng || lunch fox_${{ github.event.inputs.DEVICE_NAME }}-eng
+        lunch fox_${{ inputs.DEVICE_NAME }}-ap2a-eng || lunch fox_${{ inputs.DEVICE_NAME }}-eng
         make clean
-        mka adbd ramdisk ${{ inputs.BUILD_TARGET }}image || mka adbd ramdiskimage ${{ inputs.BUILD_TARGET }}image
+        mka adbd ${{ inputs.BUILD_TARGET }}image
 
     - name: Verify Output Images
       run: |
@@ -135,3 +135,4 @@ jobs:
           OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/OrangeFox*.zip
           OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/vendor_boot.img
           OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}/out/target/product/${{ inputs.DEVICE_NAME }}/recovery.img
+          
