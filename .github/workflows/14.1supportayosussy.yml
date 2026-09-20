@@ -90,6 +90,11 @@ jobs:
         git lfs install && git lfs pull
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
+    - name: Clone OrangeFox Vendor Tree
+      run: |
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
+        git clone https://gitlab.com/OrangeFox/vendor/recovery.git -b ${{ inputs.MANIFEST_BRANCH }} vendor/fox
+
     - name: Building OrangeFox
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
