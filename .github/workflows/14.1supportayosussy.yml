@@ -87,7 +87,7 @@ jobs:
     - name: Clone OrangeFox Vendor Tree
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        git clone https://gitlab.com/OrangeFox/vendor/recovery.git -b fox_${{ inputs.MANIFEST_BRANCH }} vendor/fox
+        git clone https://gitlab.com/OrangeFox/vendor/recovery.git -b fox_${{ inputs.MANIFEST_BRANCH }} vendor/twrp
 
     - name: Building OrangeFox
       run: |
