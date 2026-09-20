@@ -93,12 +93,6 @@ jobs:
           echo "Vendor tree already exists, skipping clone."
         fi
 
-    - name: Pre-create Output Root Directories
-      run: |
-        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/root
-        mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/recovery/root
-
     - name: Building OrangeFox
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
@@ -107,7 +101,12 @@ jobs:
         export ALLOW_MISSING_DEPENDENCIES=true
         set -e
         lunch fox_${{ inputs.DEVICE_NAME }}-ap2a-eng || lunch fox_${{ inputs.DEVICE_NAME }}-eng
+        
+        # Clean build output first, then create missing root directories right before Ninja compiles
         make clean
+        mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/root
+        mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/recovery/root
+
         mka adbd ${{ inputs.BUILD_TARGET }}image
 
     - name: Verify Output Images
