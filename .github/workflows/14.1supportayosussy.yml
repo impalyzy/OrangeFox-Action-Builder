@@ -102,10 +102,11 @@ jobs:
         set -e
         lunch fox_${{ inputs.DEVICE_NAME }}-ap2a-eng || lunch fox_${{ inputs.DEVICE_NAME }}-eng
         
-        # Clean build output first, then create missing root directories right before Ninja compiles
+        # Clean build output first, then create missing root directories and subdirectories expected by OrangeFox
         make clean
         mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/root
-        mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/recovery/root
+        mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/recovery/root/sbin
+        mkdir -p out/target/product/${{ inputs.DEVICE_NAME }}/recovery/root/linkerconfig
 
         mka adbd ${{ inputs.BUILD_TARGET }}image
 
