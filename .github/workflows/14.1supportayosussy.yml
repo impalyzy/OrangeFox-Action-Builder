@@ -84,10 +84,14 @@ jobs:
         git lfs install && git lfs pull
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
-    - name: Clone OrangeFox Vendor Tree
+    - name: Ensure OrangeFox Vendor Tree Exists
       run: |
         cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ inputs.MANIFEST_BRANCH }}
-        git clone https://gitlab.com/OrangeFox/vendor/recovery.git -b fox_${{ inputs.MANIFEST_BRANCH }} vendor/twrp
+        if [ ! -d "vendor/twrp" ] && [ ! -d "vendor/fox" ]; then
+          git clone https://gitlab.com/OrangeFox/vendor/recovery.git -b fox_${{ inputs.MANIFEST_BRANCH }} vendor/twrp
+        else
+          echo "Vendor tree already exists, skipping clone."
+        fi
 
     - name: Building OrangeFox
       run: |
